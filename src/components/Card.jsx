@@ -10,10 +10,8 @@ function Card({ id, title, url }) {
   return (
     <div className="card">
       <Link to={`/${path}/${id}`}>
-        <img src={url} alt={title} />
-        <div>
-          <h2>{title}</h2>
-        </div>
+        <img src={url} alt={title} width={200} height={200} />
+        <h2>{title}</h2>
       </Link>
     </div>
   );
