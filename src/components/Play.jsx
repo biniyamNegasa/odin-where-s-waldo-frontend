@@ -2,20 +2,25 @@ import { gameImages, characterImages } from "../data";
 import { useParams } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Error from "./Error";
+import ChoiceBox from "./ChoiceBox";
 import { useRef, useState } from "react";
 
 function Play() {
   const [scale, setScale] = useState(1);
   const imgRef = useRef(null);
-
   const { id } = useParams();
+  const [popover, setPopover] = useState({ x: 0, y: 0, isOpen: false });
+  const popoverRef = useRef(null);
+
   const currentImage = gameImages.find((image) => image.id == id);
   if (!currentImage) {
     return <Error />;
   }
+
   const handleTransformed = (_, state) => {
     setScale(state.scale);
   };
+
   const handleClick = (e) => {
     if (!imgRef.current) {
       return;
@@ -28,7 +33,12 @@ function Play() {
     const originalX = x / scale;
     const originalY = y / scale;
 
-    console.log("please", originalX, originalY);
+    setPopover({
+      x: e.pageX,
+      y: e.pageY,
+      isOpen: !popover.isOpen,
+    });
+    console.log("original", originalX, originalY);
   };
 
   return (
@@ -47,7 +57,11 @@ function Play() {
           </div>
         </div>
         <div className="play-img-container">
-          <TransformWrapper initialScale={1} onTransformed={handleTransformed}>
+          <TransformWrapper
+            initialScale={1}
+            onTransformed={handleTransformed}
+            doubleClick={{ disabled: true }}
+          >
             <TransformComponent>
               <img
                 ref={imgRef}
@@ -55,10 +69,10 @@ function Play() {
                 alt={currentImage.title}
                 style={{ pointerEvents: "auto" }}
                 onClick={handleClick}
-                draggable="false"
               />
             </TransformComponent>
           </TransformWrapper>
+          {popover.isOpen && <ChoiceBox ref={popoverRef} popover={popover} />}
         </div>
       </div>
     </div>
