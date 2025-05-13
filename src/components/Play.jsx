@@ -3,20 +3,39 @@ import { useParams } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Error from "./Error";
 import ChoiceBox from "./ChoiceBox";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import { NameContext } from "../providers/NameProvider";
+import UsernameForm from "./UsernameForm";
+import usePostTimer from "../hooks/usePostTimer";
+import useGetCheck from "../hooks/useGetCheck";
 
 function Play() {
+  const { username } = useContext(NameContext);
   const [scale, setScale] = useState(1);
+  const [selectedCharacter, setSelectedCharacter] = useState("");
   const imgRef = useRef(null);
   const { id } = useParams();
   const [popover, setPopover] = useState({ x: 0, y: 0, isOpen: false });
   const popoverRef = useRef(null);
-
+  const [choices, setChoices] = useState(characterImages);
   const currentImage = gameImages.find((image) => image.id == id);
-  if (!currentImage) {
-    return <Error />;
-  }
+  const { timer, loading, error } = usePostTimer(
+    username,
+    currentImage?.name || "",
+  );
+  const { check } = useGetCheck(
+    currentImage?.name,
+    selectedCharacter,
+    popover.x,
+    popover.y,
+  );
 
+  const handleChangeOnChoiceBox = (e) => {
+    if (e.target.value.trim() !== "") {
+      setSelectedCharacter(e.target.value);
+      setPopover({ ...popover, isOpen: false });
+    }
+  };
   const handleTransformed = (_, state) => {
     setScale(state.scale);
   };
@@ -41,6 +60,27 @@ function Play() {
     console.log("original", originalX, originalY);
   };
 
+  if (username.trim() === "") {
+    return <UsernameForm />;
+  }
+
+  if (!currentImage) {
+    return <Error />;
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error has occured!</div>;
+  }
+
+  console.log(currentImage?.name, selectedCharacter, popover.x, popover.y);
+
+  console.log(check);
+
+  const { id: gameSessionId } = timer;
+
   return (
     <div>
       <h1>Play {currentImage.title}</h1>
@@ -60,6 +100,8 @@ function Play() {
           <TransformWrapper
             initialScale={1}
             onTransformed={handleTransformed}
+            onPinchStart={() => setPopover({ ...popover, isOpen: false })}
+            onZoomStart={() => setPopover({ ...popover, isOpen: false })}
             doubleClick={{ disabled: true }}
           >
             <TransformComponent>
@@ -72,7 +114,14 @@ function Play() {
               />
             </TransformComponent>
           </TransformWrapper>
-          {popover.isOpen && <ChoiceBox ref={popoverRef} popover={popover} />}
+          {popover.isOpen && (
+            <ChoiceBox
+              ref={popoverRef}
+              popover={popover}
+              choices={choices}
+              handleChange={handleChangeOnChoiceBox}
+            />
+          )}
         </div>
       </div>
     </div>
