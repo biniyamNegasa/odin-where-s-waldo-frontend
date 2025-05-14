@@ -1,22 +1,21 @@
 import { useParams } from "react-router-dom";
-import { gameImages, gameData } from "../data";
+import { gameImages } from "../data";
 import useGetLeaderboard from "../hooks/useGetLeaderboard";
 import Error from "./Error";
 
 function SpecificLeaderBoard() {
   const { id } = useParams();
   const currentImage = gameImages.find((image) => image.id == id);
+  const { leaderboard, loading, error } = useGetLeaderboard(currentImage?.name);
   if (!currentImage) {
     return <Error />;
   }
-  const { leaderboard, loading, error } = useGetLeaderboard(currentImage.name);
   if (loading) {
     return <div>Loading...</div>;
   }
   if (error) {
     return <Error />;
   }
-  console.log(leaderboard);
   return (
     <div>
       <h1>{currentImage.title} Leaderboard</h1>
@@ -29,11 +28,11 @@ function SpecificLeaderBoard() {
           </tr>
         </thead>
         <tbody>
-          {gameData.map((data, index) => (
+          {leaderboard.map((data, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{data.username}</td>
-              <td>{data.timeTaken}</td>
+              <td>{data.name}</td>
+              <td>{data.time_taken} seconds</td>
             </tr>
           ))}
         </tbody>
