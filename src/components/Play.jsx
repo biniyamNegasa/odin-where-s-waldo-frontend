@@ -1,6 +1,6 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
 import { gameImages, characterImages } from "../data";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import Error from "./Error";
 import ChoiceBox from "./ChoiceBox";
@@ -44,8 +44,6 @@ function Play() {
   const { timer: patchedTimer } = usePatchTimer(
     shouldPatch && gameSessionId ? gameSessionId : null
   );
-
-  console.log("pathchedTimer: ", patchedTimer);
 
   const handleChangeOnChoiceBox = (e) => {
     if (e.target.value.trim() !== "") {
@@ -138,12 +136,12 @@ function Play() {
 
   if (gameOver) {
     return (
-      <div>
+      <div className="gameover-container">
         <h1>Congratulations! You found all characters!</h1>
         <p>
           Your time: {finalTime !== null ? `${finalTime} seconds` : "Saving..."}
         </p>
-        <a href={`/leaderboard/${currentImage.id}`}>View Leaderboard</a>
+        <Link to={`/leaderboard/${currentImage.id}`}>View Leaderboard</Link>
       </div>
     );
   }

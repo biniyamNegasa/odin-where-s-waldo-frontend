@@ -10,7 +10,7 @@ const useGetLeaderboard = (imageName) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}/api/leaderboard/${imageName}`,
+          `${BASE_URL}/api/leaderboard/${imageName}`
         );
         const data = await response.json();
         setLeaderboard(data);

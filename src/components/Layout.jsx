@@ -4,8 +4,12 @@ function Layout() {
   return (
     <nav className="layout">
       <div>
-        <Link to="/home">Home</Link>
-        <Link to="/leaderboard">Leaderboard</Link>
+        <Link className="nav-link" to="/home">
+          Home
+        </Link>
+        <Link className="nav-link" to="/leaderboard">
+          Leaderboard
+        </Link>
       </div>
     </nav>
   );

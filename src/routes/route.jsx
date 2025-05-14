@@ -17,21 +17,21 @@ export const route = [
         element: <Navigate to="/home" replace />,
       },
       {
-        path: "/home",
+        path: "home",
         element: <Home />,
       },
       {
-        path: "/leaderboard",
+        path: "leaderboard",
         element: <Leaderboard />,
       },
+      {
+        path: "play/:id",
+        element: <Play />,
+      },
+      {
+        path: "leaderboard/:id",
+        element: <SpecificLeaderBoard />,
+      },
     ],
-  },
-  {
-    path: "/play/:id",
-    element: <Play />,
-  },
-  {
-    path: "leaderboard/:id",
-    element: <SpecificLeaderBoard />,
   },
 ];

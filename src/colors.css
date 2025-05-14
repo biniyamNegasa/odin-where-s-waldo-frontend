@@ -1,0 +1,14 @@
+:root {
+  --color-primary: #27548a; /* Deep blue */
+  --color-secondary: #dda853; /* Gold */
+  --color-tertiary: #183b4e; /* Navy/Slate */
+  --color-quaternary: #f3f3e0; /* Light cream */
+  --color-bg: #f3f3e0;
+  --color-text: #183b4e;
+  --color-card-bg: #fff;
+  --color-card-shadow: 0 2px 8px rgba(39, 84, 138, 0.08);
+  --color-border: #dda853;
+  --color-accent: #f3f3e0;
+  --color-error: #b00020;
+  --color-success: #27548a;
+}

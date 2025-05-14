@@ -7,6 +7,11 @@ const usePatchTimer = (id) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (id === null) {
+      setTimer(null);
+      setLoading(false);
+      return;
+    }
     const fetchData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/api/timers/${id}`, {

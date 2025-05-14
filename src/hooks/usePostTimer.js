@@ -7,6 +7,11 @@ const usePostTimer = (name = "", imageName = "") => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (name === "" || imageName === "") {
+      setTimer(null);
+      setLoading(false);
+      return;
+    }
     const fetchData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/api/timers/`, {

@@ -17,7 +17,7 @@ function SpecificLeaderBoard() {
     return <Error />;
   }
   return (
-    <div>
+    <div className="leaderboard-page">
       <h1>{currentImage.title} Leaderboard</h1>
       <table>
         <thead>

@@ -9,16 +9,13 @@ function Card({ id, title, url }) {
 
   return (
     <div className="card">
-      <Link
-        to={`/${path}/${id}`}
-        style={{ textDecoration: "none", color: "inherit" }}
-      >
+      <Link to={`/${path}/${id}`} className="card-link">
         <img
           src={url}
           alt={title}
           width={200}
           height={200}
-          style={{ borderRadius: "10px 10px 0 0", objectFit: "cover" }}
+          className="card-img"
         />
         <h2>{title}</h2>
       </Link>
