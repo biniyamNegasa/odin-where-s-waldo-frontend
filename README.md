@@ -39,3 +39,5 @@ Visit the local URL shown in your terminal (usually http://localhost:5173).
 ```bash
 npm run build
 ```
+
+The backend can be found here: https://github.com/biniyamNegasa/odin-where-s-waldo-backend
